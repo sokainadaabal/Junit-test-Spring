@@ -11,8 +11,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Student {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     String name;
     Long age;

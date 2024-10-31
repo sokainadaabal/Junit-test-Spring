@@ -1,13 +1,14 @@
 package com.geo.test.mappers;
 
-import com.geo.test.entites.StudentDto;
+import com.geo.test.dtos.StudentDto;
+import com.geo.test.entites.Student;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentMapperImpl implements StudentMapper{
     @Override
-    public StudentDto studentDtoToStudent(com.geo.test.dtos.StudentDto studentDto) {
-        StudentDto student = new StudentDto();
+    public Student studentDtoToStudent(com.geo.test.dtos.StudentDto studentDto) {
+        Student student = new Student();
         student.setId(studentDto.getId());
         student.setName(studentDto.getName());
         student.setAge(studentDto.getAge());
@@ -15,7 +16,7 @@ public class StudentMapperImpl implements StudentMapper{
     }
 
     @Override
-    public com.geo.test.dtos.StudentDto studentToStudentDto(StudentDto student) {
+    public StudentDto studentToStudentDto(Student student) {
         com.geo.test.dtos.StudentDto studentDto = new com.geo.test.dtos.StudentDto();
         studentDto.setId(student.getId());
         studentDto.setAge(student.getAge());

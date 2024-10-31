@@ -1,8 +1,9 @@
 package com.geo.test.mappers;
 
-import com.geo.test.entites.StudentDto;
+import com.geo.test.dtos.StudentDto;
+import com.geo.test.entites.Student;
 
 public interface StudentMapper {
-    StudentDto studentDtoToStudent(com.geo.test.dtos.StudentDto studentDto);
-    com.geo.test.dtos.StudentDto studentToStudentDto(StudentDto studentDto);
+    Student studentDtoToStudent(StudentDto studentDto);
+    StudentDto studentToStudentDto(Student student);
 }
