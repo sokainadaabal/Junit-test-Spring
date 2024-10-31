@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StudentService {
     StudentDto addStudent(Student student);
-    StudentDto updateStudent(StudentDto studentDto);
+    StudentDto updateStudent(Student student);
     List<StudentDto> getAllStudent();
     StudentDto serachStudent(Long id);
 }

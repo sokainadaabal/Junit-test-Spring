@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,8 +18,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService{
 
-    StudentMapper studentMapper;
-    StudentRepository studentRepository;
+    private StudentMapper studentMapper;
+    private StudentRepository studentRepository;
     @Override
     public StudentDto addStudent(Student student) {
         Student studentSave=studentRepository.save(student);
@@ -26,8 +27,13 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentDto updateStudent(StudentDto studentDto) {
-        return null;
+    public StudentDto updateStudent(Student student) {
+        Student studentFind= studentRepository.findById(1L).get();
+        studentFind.setName(student.getName());
+        studentFind.setAge(student.getAge());
+        studentFind.setPassword(student.getPassword());
+        Student studentSave= studentRepository.save(studentFind);
+        return studentMapper.studentToStudentDto(studentSave);
     }
 
     @Override
@@ -39,6 +45,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public StudentDto serachStudent(Long id) {
-        return null;
+        Student studentFind=studentRepository.findById(id).orElse(null);
+        return studentMapper.studentToStudentDto(studentFind);
     }
 }
