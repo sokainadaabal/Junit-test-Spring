@@ -3,6 +3,7 @@ package com.geo.test.services;
 
 import com.geo.test.dtos.StudentDto;
 import com.geo.test.entites.Student;
+import com.geo.test.exceptions.StudentNotFoundException;
 import com.geo.test.mappers.StudentMapper;
 import com.geo.test.repositories.StudentRepository;
 import jakarta.transaction.Transactional;
@@ -44,8 +45,34 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentDto serachStudent(Long id) {
+    public StudentDto serachStudent(Long id) throws StudentNotFoundException {
         Student studentFind=studentRepository.findById(id).orElse(null);
+        if(studentFind==null){
+            throw new StudentNotFoundException("Student with id " + id + "Not Exist in data base");
+
+        }
         return studentMapper.studentToStudentDto(studentFind);
+    }
+
+    @Override
+    public Student saveOrUpadteStudent(Student student) {
+        Student findStudent=studentRepository.findById(student.getId()).orElse(null);
+
+        if(findStudent==null){
+            return studentRepository.save(student);
+        }
+        else {
+            findStudent.setName(student.getName());
+            findStudent.setAge(student.getAge());
+            findStudent.setPassword(student.getPassword());
+            return studentRepository.save(findStudent);
+        }
+    }
+
+    @Override
+    public void deleteStudent(Long id) throws StudentNotFoundException{
+        Student student  = studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found in the database"));;
+        studentRepository.deleteById(student.getId() );
     }
 }

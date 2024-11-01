@@ -2,6 +2,7 @@ package com.geo.test.services;
 
 import com.geo.test.dtos.StudentDto;
 import com.geo.test.entites.Student;
+import com.geo.test.exceptions.StudentNotFoundException;
 import com.geo.test.mappers.StudentMapper;
 import com.geo.test.mappers.StudentMapperImpl;
 import com.geo.test.repositories.StudentRepository;
@@ -13,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest // pour charger toute le contexte de spring
@@ -38,7 +41,7 @@ class StudentServiceImplTest {
 
     @Test
     void getAllStudent() {
-        Student student1= new Student(1L,"sokaona",12L,"daabal");
+        Student student1= new Student(1L,"sokaina",12L,"daabal");
         Student student2= new Student(2L,"rachida",15L,"mohammed");
         when(studentRepository.findAll()).thenReturn(List.of(student1,student2));
 
@@ -49,5 +52,30 @@ class StudentServiceImplTest {
 
     @Test
     void serachStudent() {
+        Student student1= new Student(1L,"sokaina",12L,"daabal");
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student1));
+        StudentDto studentDto= null;
+        try {
+            studentDto = studentService.serachStudent(student1.getId());
+        } catch (StudentNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        assertThat(studentDto).isEqualTo(studentMapper.studentToStudentDto(student1));
+    }
+
+    @Test
+    void returnSaveOrUpdateStudent(){
+        Student student1= new Student(1L,"sokaina",12L,"daabal");
+        when(studentRepository.save(student1)).thenReturn(student1);
+        Student student= studentService.saveOrUpadteStudent(student1);
+        assertThat(student).isEqualTo(student1);
+    }
+
+    @Test
+    void souldDeletedStudent() throws StudentNotFoundException {
+
+        studentService.deleteStudent(1L);
+        verify(studentRepository).deleteById(1L);
+
     }
 }
