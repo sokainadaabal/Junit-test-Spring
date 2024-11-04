@@ -7,20 +7,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentMapperImpl implements StudentMapper{
     @Override
-    public Student studentDtoToStudent(com.geo.test.dtos.StudentDto studentDto) {
+    public Student studentDtoToStudent(StudentDto studentDto) {
         Student student = new Student();
-        student.setId(studentDto.getId());
-        student.setName(studentDto.getName());
-        student.setAge(studentDto.getAge());
+        student.setId(studentDto.id());
+        student.setName(studentDto.name());
+        student.setAge(studentDto.age());
         return student;
     }
 
     @Override
     public StudentDto studentToStudentDto(Student student) {
-        com.geo.test.dtos.StudentDto studentDto = new com.geo.test.dtos.StudentDto();
-        studentDto.setId(student.getId());
-        studentDto.setAge(student.getAge());
-        studentDto.setName(student.getName());
-        return studentDto;
+        return new StudentDto(student.getId(), student.getName(), student.getAge());
     }
 }
