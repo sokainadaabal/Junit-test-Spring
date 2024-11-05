@@ -10,7 +10,7 @@ public interface StudentService {
     StudentDto addStudent(Student student);
     StudentDto updateStudent(Student student);
     List<StudentDto> getAllStudent();
-    StudentDto serachStudent(Long id) throws StudentNotFoundException;
+    StudentDto searchStudent(Long id) throws StudentNotFoundException;
     Student saveOrUpadteStudent(Student student);
-    void deleteStudent(Long id) throws StudentNotFoundException;
+    void deleteStudent(Long id) ;
 }

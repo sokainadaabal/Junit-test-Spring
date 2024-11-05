@@ -1,0 +1,4 @@
+com\geo\test\repositories\StudentRepositoryTest.class
+com\geo\test\services\StudentServiceImplTest.class
+controllers\StudentControllerTest.class
+com\geo\test\TestApplicationTests.class

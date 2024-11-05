@@ -8,10 +8,15 @@ import java.util.Date;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class ApiError {
     private Integer errorCode;
     private String errorDesc;
     private Date date;
+
+    public ApiError(Integer errorCode, String errorDesc, Date date) {
+        this.errorCode = errorCode;
+        this.errorDesc = errorDesc;
+        this.date = date;
+    }
 }

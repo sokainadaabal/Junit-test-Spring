@@ -9,14 +9,18 @@ public class StudentMapperImpl implements StudentMapper{
     @Override
     public Student studentDtoToStudent(StudentDto studentDto) {
         Student student = new Student();
-        student.setId(studentDto.id());
-        student.setName(studentDto.name());
-        student.setAge(studentDto.age());
+        student.setId(studentDto.getId());
+        student.setName(studentDto.getName());
+        student.setAge(studentDto.getAge());
         return student;
     }
 
     @Override
     public StudentDto studentToStudentDto(Student student) {
-        return new StudentDto(student.getId(), student.getName(), student.getAge());
+        StudentDto studentDto = new StudentDto();
+        studentDto.setId(student.getId());
+        studentDto.setName(studentDto.getName());
+        studentDto.setAge(studentDto.getAge());
+        return studentDto;
     }
 }

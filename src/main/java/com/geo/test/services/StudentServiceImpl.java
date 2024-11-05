@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,12 +30,17 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public StudentDto updateStudent(Student student) {
-        Student studentFind= studentRepository.findById(1L).get();
-        studentFind.setName(student.getName());
-        studentFind.setAge(student.getAge());
-        studentFind.setPassword(student.getPassword());
-        Student studentSave= studentRepository.save(studentFind);
-        return studentMapper.studentToStudentDto(studentSave);
+        Student studentFind= studentRepository.findById(student.getId()).orElse(null);
+        if(Objects.nonNull(studentFind)){
+            studentFind.setId(student.getId());
+            studentFind.setName(student.getName());
+            studentFind.setAge(student.getAge());
+            studentFind.setPassword(student.getPassword());
+            Student studentSave= studentRepository.save(studentFind);
+            return studentMapper.studentToStudentDto(studentSave);
+        }
+        else return null;
+
     }
 
     @Override
@@ -45,9 +51,9 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentDto serachStudent(Long id) throws StudentNotFoundException {
+    public StudentDto searchStudent(Long id) throws StudentNotFoundException {
         Student studentFind=studentRepository.findById(id).orElse(null);
-        if(studentFind==null){
+        if(Objects.isNull(studentFind)){
             throw new StudentNotFoundException("Student with id " + id + "Not Exist in data base");
 
         }
@@ -70,9 +76,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void deleteStudent(Long id) throws StudentNotFoundException{
-        Student student  = studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Student with ID " + id + " not found in the database"));;
-        studentRepository.deleteById(student.getId() );
+    public void deleteStudent(Long id){
+          studentRepository.deleteById(id);
     }
 }

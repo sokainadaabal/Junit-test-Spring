@@ -4,13 +4,10 @@ import com.geo.test.dtos.StudentDto;
 import com.geo.test.entites.Student;
 import com.geo.test.exceptions.StudentNotFoundException;
 import com.geo.test.mappers.StudentMapper;
-import com.geo.test.mappers.StudentMapperImpl;
 import com.geo.test.repositories.StudentRepository;
-import com.geo.test.services.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -18,7 +15,6 @@ import java.util.Optional;
 
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,11 +28,18 @@ class StudentServiceImplTest {
     private StudentMapper studentMapper;
     @Test
     void addStudent() {
-
+             Student student1=new Student(1L,"sokaina",12L,"daabal");
+             StudentDto studentDto=studentService.addStudent(student1);
+             assertThat(studentDto).isEqualTo(studentMapper.studentToStudentDto(student1));
     }
 
     @Test
     void updateStudent() {
+        Student student1= new Student(1L,"sokaina",12L,"daabal");
+        Student student2= new Student(1L,"rachida",15L,"mohammed");
+        when(studentRepository.save(student1)).thenReturn(student1);
+        StudentDto studentDto= studentService.updateStudent(student2);
+        assertThat(studentDto).isEqualTo(studentMapper.studentToStudentDto(student2));
     }
 
     @Test
@@ -51,12 +54,12 @@ class StudentServiceImplTest {
     }
 
     @Test
-    void serachStudent() {
+    void searchStudent() {
         Student student1= new Student(1L,"sokaina",12L,"daabal");
         when(studentRepository.findById(1L)).thenReturn(Optional.of(student1));
         StudentDto studentDto= null;
         try {
-            studentDto = studentService.serachStudent(student1.getId());
+            studentDto = studentService.searchStudent(student1.getId());
         } catch (StudentNotFoundException e) {
             throw new RuntimeException(e);
         }
